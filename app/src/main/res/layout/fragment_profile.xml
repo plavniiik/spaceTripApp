@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <ImageView
+        android:id="@+id/stars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/stars"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_100"
+        android:text="@string/profile"
+        android:textAppearance="@style/regular_style_text"
+        android:textSize="@dimen/title_20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="@dimen/_100dp"
+        android:layout_height="@dimen/_100dp"
+        android:layout_marginTop="@dimen/margin_20"
+        android:background="@drawable/profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_20"
+        android:textAppearance="@style/regular_style_text"
+        android:textSize="@dimen/text_reg_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/picture"
+        tools:text="@string/app_name" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button"
+        android:layout_width="@dimen/small_btn_w"
+        android:layout_height="@dimen/small_btn_h"
+        android:layout_marginTop="@dimen/margin_20"
+        android:background="@drawable/yellow_btn"
+        android:text="Edit Profile"
+        android:textAppearance="@style/bold_style_black"
+        android:textSize="@dimen/text_button_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/username" />
+    <TextView
+        android:id="@+id/settings_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_40"
+        android:textAppearance="@style/regular_style_text"
+        android:textSize="@dimen/text_reg_size"
+        app:layout_constraintEnd_toStartOf="@id/button"
+        app:layout_constraintTop_toBottomOf="@id/button"
+        android:text="@string/settings" /> />
+
+    <TextView
+        android:id="@+id/my_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_100"
+        android:layout_marginTop="@dimen/margin_40"
+        android:textAppearance="@style/regular_style_text"
+        android:textSize="@dimen/text_reg_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_title"
+        android:text="@string/saved" />
+
+    <TextView
+        android:id="@+id/logout_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_100"
+        android:layout_marginTop="@dimen/margin_40"
+        android:textAppearance="@style/regular_style_text"
+        android:textSize="@dimen/text_reg_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/my_title"
+        android:text="@string/logout" />
+
+
+    <ImageView
+        android:id="@+id/setings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_8"
+        android:background="@drawable/settings"
+        app:layout_constraintEnd_toStartOf="@id/settings_title"
+        app:layout_constraintTop_toTopOf="@id/settings_title" />
+
+
+    <ImageView
+        android:id="@+id/my"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_8"
+        android:background="@drawable/my"
+        app:layout_constraintEnd_toStartOf="@id/my_title"
+        app:layout_constraintTop_toTopOf="@id/my_title" />
+
+    <ImageView
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_8"
+        android:background="@drawable/logout"
+        app:layout_constraintEnd_toStartOf="@id/logout_title"
+        app:layout_constraintTop_toTopOf="@id/logout_title" />
+
+    <ImageView
+        android:id="@+id/cb1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_40"
+        android:background="@drawable/carousel_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/logout_title" />
+
+    <ImageView
+        android:id="@+id/cb2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_40"
+        android:background="@drawable/carousel_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/my_title" />
+
+    <ImageView
+        android:id="@+id/cb3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_40"
+        android:background="@drawable/carousel_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/settings_title" />
+</androidx.constraintlayout.widget.ConstraintLayout>

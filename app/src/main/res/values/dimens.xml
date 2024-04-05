@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_width">172dp</dimen>
+    <dimen name="button_height">52dp</dimen>
+    <dimen name="text_button_size">16sp</dimen>
+    <dimen name="text_reg_size">18sp</dimen>
+    <dimen name="text_small_size">12sp</dimen>
+    <dimen name="title_20">20sp</dimen>
+    <dimen name="text_46sp">46sp</dimen>
+    <dimen name="margin_100">100dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_40">40dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
+    <dimen name="im_height_300">300dp</dimen>
+    <dimen name="im_height_250">250dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_14">14dp</dimen>
+    <dimen name="_20dp">20dp</dimen>
+    <dimen name="_80dp">80dp</dimen>
+    <dimen name="_40dp">40dp</dimen>
+    <dimen name="_100dp">100dp</dimen>
+    <dimen name="small_btn_w">92dp</dimen>
+    <dimen name="small_btn_h">32dp</dimen>
+    <dimen name="_0dp">0dp</dimen>
+    <dimen name="im_w_300dp">300dp</dimen>
+    <dimen name="im_h_100dp">100dp</dimen>
+</resources>
