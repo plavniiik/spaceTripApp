@@ -4,11 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.application.tripapp.db.PictureEntity
-import com.application.tripapp.model.PictureOfTheDay
 import com.application.tripapp.repository.FireBaseRepository
 import com.application.tripapp.repository.PictureOfTheDayRepository
-import com.application.tripapp.ui.main.MainAction
-import com.application.tripapp.ui.main.MainState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,7 +56,7 @@ class PictureViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let {
                         val picture = PictureEntity(
-                            "",
+                            firebaseRepository.getPictureId(it),
                             it.explanation,
                             it.title,
                             it.url
@@ -70,7 +67,6 @@ class PictureViewModel @Inject constructor(
                             }
                         )
                         checkIfPictureIsAdded(picture)
-
                     }
                 }
             } catch (e: Exception) {

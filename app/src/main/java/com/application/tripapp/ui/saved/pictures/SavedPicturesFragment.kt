@@ -55,11 +55,8 @@ class SavedPicturesFragment : Fragment() {
     private fun setList(list: List<PictureEntity>) {
         binding?.recyclerView?.run {
             if (adapter == null) {
-
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = SavedPicturesAdapter { idPic ->
-
-
                 }
             }
             (adapter as? SavedPicturesAdapter)?.submitList(list)
