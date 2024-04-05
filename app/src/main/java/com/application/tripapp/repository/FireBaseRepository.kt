@@ -1,5 +1,6 @@
 package com.application.tripapp.repository
 
+import androidx.lifecycle.MutableLiveData
 import com.application.tripapp.R
 import com.application.tripapp.db.PictureEntity
 import com.application.tripapp.model.PictureOfTheDay
@@ -20,6 +21,7 @@ class FireBaseRepository @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
 
     ) {
+    val picturesResult = MutableLiveData<List<PictureEntity>>()
     fun signIn(
         email: String, password: String, onSuccess: () -> Unit,
         onError: (error: String) -> Unit
@@ -92,21 +94,24 @@ class FireBaseRepository @Inject constructor(
         }
     }
 
-    fun getPicturesOfTheDay(
-        onSuccess: (pictures: List<PictureEntity>) -> Unit,
-        onError: (error: String) -> Unit
+    fun getPicturesOfTheDay(onSuccess: (results: List<PictureEntity>) -> Unit,
+                            onError: (error: String) -> Unit
     ) {
         val userId = firebaseAuth.currentUser?.uid
         if (userId != null) {
             Firebase.database.getReference("picturesOfTheDay")
                 .child(userId)
-                .get()
-                .addOnSuccessListener { dataSnapshot ->
-                    val pictures =
-                        dataSnapshot.children.mapNotNull { it.getValue(PictureEntity::class.java) }
-                    onSuccess(pictures)
-                }
-                .addOnFailureListener { onError(it.localizedMessage) }
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val results =
+                            dataSnapshot.children.mapNotNull { it.getValue(PictureEntity::class.java) }
+                        onSuccess(results)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        onError(error.message)
+                    }
+                })
         } else {
             onError("User is not logged in")
         }
