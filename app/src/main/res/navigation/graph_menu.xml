@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/graph_menu"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/asteroidsFragment"
+        android:name="com.application.tripapp.ui.asteroids.AsteroidsFragment"
+        android:label="AsteroidsFragment"
+        tools:layout="@layout/fragment_asteroids"/>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.application.tripapp.ui.main.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_pictureOfTheDayFragment"
+            app:destination="@id/pictureOfTheDayFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/marsFragment"
+        android:name="com.application.tripapp.ui.mars.MarsFragment"
+        android:label="MarsFragment"
+        tools:layout="@layout/fragment_mars_rovers"/>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.application.tripapp.ui.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment2"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_savedPicturesFragment"
+            app:destination="@id/savedPicturesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scienceRepositoryFragment"
+        android:name="com.application.tripapp.ui.science.ScienceRepositoryFragment"
+        android:label="ScienceRepositoryFragment"
+        tools:layout="@layout/fragment_repository"/>
+    <fragment
+        android:id="@+id/pictureOfTheDayFragment"
+        android:name="com.application.tripapp.ui.picture.PictureOfTheDayFragment"
+        android:label="PictureOfTheDayFragment"
+        tools:layout="@layout/fragment_picture_of_the_day">
+        <action
+            android:id="@+id/action_pictureOfTheDayFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.application.tripapp.ui.login.LoginFragment"
+        android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/savedPicturesFragment"
+        android:name="com.application.tripapp.ui.saved.pictures.SavedPicturesFragment"
+        android:label="SavedPicturesFragment"
+        tools:layout="@layout/fragment_saved_pictures"/>
+</navigation>
