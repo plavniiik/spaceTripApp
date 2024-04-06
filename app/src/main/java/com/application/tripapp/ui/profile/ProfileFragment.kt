@@ -1,6 +1,7 @@
 package com.application.tripapp.ui.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,8 +32,9 @@ class ProfileFragment : Fragment() {
             logoutTitle?.setOnClickListener {
                 requireActivity().findNavController(R.id.main_nav).apply {
                     navigate(R.id.action_menuFragment_to_loginFragment)
+                    Log.d("MyTag", " ЗАШЕЛ")
                 }
-                viewModel.logout()
+                    viewModel.logout()
             }
 
             my.setOnClickListener {

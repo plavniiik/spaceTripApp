@@ -5,14 +5,18 @@ import androidx.lifecycle.ViewModel
 import com.application.tripapp.repository.FireBaseRepository
 import com.application.tripapp.ui.login.LoginAction
 import com.application.tripapp.ui.login.LoginState
+import com.application.tripapp.ui.main.MainState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(private val repository: FireBaseRepository) :
     ViewModel() {
 
-    val state = MutableLiveData<SignUpState>()
+    private val _state = MutableStateFlow<SignUpState>(SignUpState.Uninitialized)
+    val state: StateFlow<SignUpState> = _state
 
     fun processAction(action: SignUpAction) {
         when (action) {
@@ -26,9 +30,9 @@ class SignUpViewModel @Inject constructor(private val repository: FireBaseReposi
 
     private fun signUp(email: String, password: String) {
         repository.signUp(email, password, {
-            state.value = SignUpState.SignUpSuccess
+            _state.value = SignUpState.SignUpSuccess
         }, {
-            state.value = SignUpState.Error(it)
+            _state.value = SignUpState.Error(it)
         })
     }
 }
