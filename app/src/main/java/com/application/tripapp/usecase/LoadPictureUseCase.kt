@@ -28,7 +28,7 @@ class LoadPictureUseCase @Inject constructor(
         if (response.isSuccessful) {
             response.body()?.let {
                 val picture = PictureEntity(
-                    id = fireRepository.getPictureId(response),
+                    id = fireRepository.getPictureId(response.body()!!),
                     explanation = it.explanation,
                     title = it.title,
                     url = it.url

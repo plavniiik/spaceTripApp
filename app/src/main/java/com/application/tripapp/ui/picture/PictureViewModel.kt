@@ -1,11 +1,9 @@
 package com.application.tripapp.ui.picture
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.application.tripapp.db.PictureEntity
 import com.application.tripapp.repository.FireBaseRepository
-import com.application.tripapp.repository.PictureOfTheDayRepository
 import com.application.tripapp.usecase.LoadPictureUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -13,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
 class PictureViewModel @Inject constructor(
     private val useCase: LoadPictureUseCase,
@@ -53,24 +52,24 @@ class PictureViewModel @Inject constructor(
         }
     }
 
-    private fun addPicture(picture: PictureEntity) {
+    private fun addPicture(picture: PictureEntity?) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 firebaseRepository.savePictureOfTheDay(picture, {
                     isPictureAdded.value = true
-                }, {
+                }) {
                     _state.value = PictureState.PictureError("Error: $it")
-                })
+                }
             } catch (e: Exception) {
                 _state.value = PictureState.PictureError("Error: ${e.message}")
             }
         }
     }
 
-    private fun deletePicture(picture: PictureEntity) {
+    private fun deletePicture(picture: PictureEntity?) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                firebaseRepository.deletePictureOfTheDay(picture.id, {
+                firebaseRepository.deletePictureOfTheDay(picture?.id ?: "", {
                     isPictureAdded.value = false
                 }, {
                     _state.value = PictureState.PictureError("Error: $it")

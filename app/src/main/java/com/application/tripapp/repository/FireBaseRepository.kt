@@ -56,7 +56,7 @@ class FireBaseRepository @Inject constructor(
     }
 
     fun savePictureOfTheDay(
-        picture: PictureEntity,
+        picture: PictureEntity?,
         onSuccess: () -> Unit,
         onError: (error: String) -> Unit
     ) {
@@ -64,7 +64,7 @@ class FireBaseRepository @Inject constructor(
         if (userId != null) {
             val key = Firebase.database.getReference("picturesOfTheDay").child(userId).push().key
             if (key != null) {
-                picture.id = key
+                picture?.id = key
                 Firebase.database.getReference("picturesOfTheDay")
                     .child(userId)
                     .child(key)
@@ -116,55 +116,55 @@ class FireBaseRepository @Inject constructor(
                     override fun onCancelled(error: DatabaseError) {
                     }
                 })
-                } else {
-                    Log.e("FireBaseRepository", "User is not logged in")
-                }
-        }
-
-
-        suspend fun getAddedPicture(picture: PictureEntity): PictureEntity? =
-            suspendCoroutine { continuation ->
-                val pictureListener = object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        var addedPicture: PictureEntity? = null
-                        for (ds in dataSnapshot.children) {
-                            if (ds.key == firebaseAuth.currentUser?.uid) {
-                                for (child in ds.children) {
-                                    val pic = child.getValue(PictureEntity::class.java)
-                                    if (pic?.url == picture.url) {
-                                        addedPicture = pic
-                                        break
-                                    }
-                                }
-                            }
-                            if (addedPicture != null) break
-                        }
-                        continuation.resume(addedPicture)
-                    }
-
-                    override fun onCancelled(databaseError: DatabaseError) {
-                        continuation.resumeWithException(databaseError.toException())
-                    }
-                }
-                Firebase.database.getReference("picturesOfTheDay")
-                    .addListenerForSingleValueEvent(pictureListener)
-            }
-
-        suspend fun isPictureAdded(picture: PictureEntity): Flow<Boolean>  = flow{
-            emit (getAddedPicture(picture) != null)
-        }
-
-        suspend fun getPictureId(picture: PictureOfTheDayResponse): String {
-            val entity = picture.toEntity()
-            val addedPicture = getAddedPicture(entity)
-            return if (addedPicture != null) {
-                addedPicture.id
-            } else {
-                Firebase.database.getReference("picturesOfTheDay").push().key ?: ""
-            }
-        }
-
-        fun signOut() {
-            firebaseAuth.signOut()
+        } else {
+            Log.e("FireBaseRepository", "User is not logged in")
         }
     }
+
+
+    suspend fun getAddedPicture(picture: PictureEntity): PictureEntity? =
+        suspendCoroutine { continuation ->
+            val pictureListener = object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var addedPicture: PictureEntity? = null
+                    for (ds in dataSnapshot.children) {
+                        if (ds.key == firebaseAuth.currentUser?.uid) {
+                            for (child in ds.children) {
+                                val pic = child.getValue(PictureEntity::class.java)
+                                if (pic?.url == picture.url) {
+                                    addedPicture = pic
+                                    break
+                                }
+                            }
+                        }
+                        if (addedPicture != null) break
+                    }
+                    continuation.resume(addedPicture)
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    continuation.resumeWithException(databaseError.toException())
+                }
+            }
+            Firebase.database.getReference("picturesOfTheDay")
+                .addListenerForSingleValueEvent(pictureListener)
+        }
+
+    suspend fun isPictureAdded(picture: PictureEntity): Flow<Boolean> = flow {
+        emit(getAddedPicture(picture) != null)
+    }
+
+    suspend fun getPictureId(picture: PictureOfTheDayResponse): String {
+        val entity = picture.toEntity()
+        val addedPicture = getAddedPicture(entity)
+        return if (addedPicture != null) {
+            addedPicture.id
+        } else {
+            Firebase.database.getReference("picturesOfTheDay").push().key ?: ""
+        }
+    }
+
+    fun signOut() {
+        firebaseAuth.signOut()
+    }
+}
