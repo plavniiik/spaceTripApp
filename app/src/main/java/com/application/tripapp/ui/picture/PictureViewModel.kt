@@ -6,71 +6,49 @@ import androidx.lifecycle.viewModelScope
 import com.application.tripapp.db.PictureEntity
 import com.application.tripapp.repository.FireBaseRepository
 import com.application.tripapp.repository.PictureOfTheDayRepository
+import com.application.tripapp.usecase.LoadPictureUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 @HiltViewModel
 class PictureViewModel @Inject constructor(
-    private val repository: PictureOfTheDayRepository,
+    private val useCase: LoadPictureUseCase,
     private val firebaseRepository: FireBaseRepository
-) :
-    ViewModel() {
+) : ViewModel() {
 
-    val state = MutableLiveData<PictureState>()
-    val isPictureAdded = MutableLiveData<Boolean>()
+    private val _state = MutableStateFlow<PictureState>(PictureState.PictureLoaded(null))
+    val state: StateFlow<PictureState> get() = _state
+
+    val isPictureAdded = MutableStateFlow<Boolean>(false)
 
     fun checkIfPictureIsAdded(picture: PictureEntity) {
         viewModelScope.launch {
-            val added = firebaseRepository.isPictureAdded(picture)
-            isPictureAdded.postValue(added)
+            firebaseRepository.isPictureAdded(picture).collect { result ->
+                isPictureAdded.value = result
+            }
         }
     }
 
     fun processAction(action: PictureAction) {
         when (action) {
-            is PictureAction.LoadPicture -> {
-                loadPicture()
-
-            }
-
-            is PictureAction.AddPicture -> {
-                addPicture(action.picture)
-            }
-
-            is PictureAction.DeletePicture -> {
-                deletePicture(action.picture)
-            }
-
-            else -> {
-
-            }
+            is PictureAction.LoadPicture -> loadPicture()
+            is PictureAction.AddPicture -> addPicture(action.picture)
+            is PictureAction.DeletePicture -> deletePicture(action.picture)
         }
     }
 
     private fun loadPicture() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = repository.getPicture()
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        val picture = PictureEntity(
-                            firebaseRepository.getPictureId(it),
-                            it.explanation,
-                            it.title,
-                            it.url
-                        )
-                        state.postValue(
-                            picture?.let {
-                                PictureState.PictureLoaded(picture)
-                            }
-                        )
-                        checkIfPictureIsAdded(picture)
-                    }
+                useCase.getPicture().collect { picture ->
+                    _state.value = PictureState.PictureLoaded(picture)
+                    checkIfPictureIsAdded(picture)
                 }
             } catch (e: Exception) {
-                state.postValue(PictureState.PictureError("Error: ${e.message}"))
+                _state.value = PictureState.PictureError("Error: ${e.message}")
             }
         }
     }
@@ -79,12 +57,12 @@ class PictureViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 firebaseRepository.savePictureOfTheDay(picture, {
-                    isPictureAdded.postValue(true)
+                    isPictureAdded.value = true
                 }, {
-                    state.postValue(PictureState.PictureError("Error: ${it}"))
+                    _state.value = PictureState.PictureError("Error: $it")
                 })
             } catch (e: Exception) {
-                state.postValue(PictureState.PictureError("Error: ${e.message}"))
+                _state.value = PictureState.PictureError("Error: ${e.message}")
             }
         }
     }
@@ -93,14 +71,13 @@ class PictureViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 firebaseRepository.deletePictureOfTheDay(picture.id, {
-                    isPictureAdded.postValue(false)
+                    isPictureAdded.value = false
                 }, {
-                    state.postValue(PictureState.PictureError("Error: ${it}"))
+                    _state.value = PictureState.PictureError("Error: $it")
                 })
             } catch (e: Exception) {
-                state.postValue(PictureState.PictureError("Error: ${e.message}"))
+                _state.value = PictureState.PictureError("Error: ${e.message}")
             }
         }
     }
-
 }

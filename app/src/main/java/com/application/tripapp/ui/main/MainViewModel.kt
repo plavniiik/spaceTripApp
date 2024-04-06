@@ -3,19 +3,22 @@ package com.application.tripapp.ui.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.application.tripapp.model.PictureOfTheDay
-import com.application.tripapp.repository.PictureOfTheDayRepository
+import com.application.tripapp.usecase.LoadPictureUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repository: PictureOfTheDayRepository):
+    private val loadPictureUseCase: LoadPictureUseCase
+) :
     ViewModel() {
 
-    val state = MutableLiveData<MainState>()
+    private val _state = MutableStateFlow<MainState>(MainState.PictureLoaded(null))
+    val state: StateFlow<MainState> = _state
 
     fun processAction(action: MainAction) {
         when (action) {
@@ -24,24 +27,17 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
     private fun loadPicture() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = repository.getPicture()
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        val picture = PictureOfTheDay(
-                            it.explanation,
-                            it.title,
-                            it.url
-                        )
-                        state.postValue(
-                            picture?.let { MainState.PictureLoaded(picture) }
-                        )
-                    }
+                loadPictureUseCase.getPictureOfTheDayMain().collect { picture ->
+                    _state.value = MainState.PictureLoaded(picture)
                 }
+
+
             } catch (e: Exception) {
-                state.postValue(MainState.PictureError("Error: ${e.message}"))
+                _state.value= MainState.PictureError("Error: ${e.message}")
             }
         }
     }
