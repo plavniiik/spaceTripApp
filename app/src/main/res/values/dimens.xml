@@ -12,6 +12,7 @@
     <dimen name="margin_40">40dp</dimen>
     <dimen name="padding_10">10dp</dimen>
     <dimen name="im_height_300">300dp</dimen>
+    <dimen name="im_height_350">350dp</dimen>
     <dimen name="im_height_250">250dp</dimen>
     <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_14">14dp</dimen>
@@ -24,4 +25,6 @@
     <dimen name="_0dp">0dp</dimen>
     <dimen name="im_w_300dp">300dp</dimen>
     <dimen name="im_h_100dp">100dp</dimen>
+    <dimen name="_60dp">60dp</dimen>
+    <dimen name="h_20dp">20dp</dimen>
 </resources>

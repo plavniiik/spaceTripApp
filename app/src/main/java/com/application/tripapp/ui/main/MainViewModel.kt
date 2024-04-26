@@ -29,15 +29,15 @@ class MainViewModel @Inject constructor(
     }
 
     private fun loadPicture() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                loadPictureUseCase.getPictureOfTheDayMain().collect { picture ->
-                    _state.value = MainState.PictureLoaded(picture)
+        if(_state.value==MainState.PictureLoaded(null)){
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    loadPictureUseCase.getPictureOfTheDayMain().collect { picture ->
+                        _state.value = MainState.PictureLoaded(picture)
+                    }
+                } catch (e: Exception) {
+                    _state.value= MainState.PictureError("Error: ${e.message}")
                 }
-
-
-            } catch (e: Exception) {
-                _state.value= MainState.PictureError("Error: ${e.message}")
             }
         }
     }

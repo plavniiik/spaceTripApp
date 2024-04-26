@@ -2,6 +2,7 @@ package com.application.tripapp.di
 
 import android.os.Build
 import com.application.tripapp.network.Api
+import com.application.tripapp.network.ApiRepository
 import com.google.firebase.BuildConfig
 import dagger.Module
 import dagger.Provides
@@ -39,4 +40,23 @@ class NetworkModule {
             .build()
             .create(Api::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideApiRepository(): ApiRepository {
+        return Retrofit.Builder()
+            .baseUrl("https://osdr.nasa.gov/geode-py/ws/api/")
+            .client(
+                OkHttpClient.Builder().addInterceptor(
+                    HttpLoggingInterceptor().apply {
+                        setLevel(HttpLoggingInterceptor.Level.BODY)
+                    }
+                )
+                    .build()
+            )
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiRepository::class.java)
+    }
+
 }

@@ -48,6 +48,7 @@ class MainFragment : Fragment() {
                                         binding?.root?.let { it1 ->
                                             Glide.with(it1.context)
                                                 .load(state.picture?.url)
+                                                .error(Glide.with(it1.context).load("https://hightech.fm/wp-content/uploads/2023/02/8888889.jpg"))
                                                 .into(it)
                                         }
                                     }

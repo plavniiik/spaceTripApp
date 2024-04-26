@@ -8,6 +8,7 @@ import com.application.tripapp.utils.toEntity
 import com.application.tripapp.utils.toPictureOfTheDay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.take
 import javax.inject.Inject
 
 class LoadPictureUseCase @Inject constructor(
@@ -36,6 +37,6 @@ class LoadPictureUseCase @Inject constructor(
                 emit(picture)
             }
         }
-    }
+    }.take(10)
 
 }

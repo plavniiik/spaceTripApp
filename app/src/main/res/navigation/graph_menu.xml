@@ -9,7 +9,11 @@
         android:id="@+id/asteroidsFragment"
         android:name="com.application.tripapp.ui.asteroids.AsteroidsFragment"
         android:label="AsteroidsFragment"
-        tools:layout="@layout/fragment_asteroids"/>
+        tools:layout="@layout/fragment_asteroids">
+        <action
+            android:id="@+id/action_asteroidsFragment_to_asteroidPageFragment"
+            app:destination="@id/asteroidPageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.application.tripapp.ui.main.MainFragment"
@@ -40,7 +44,14 @@
         android:id="@+id/scienceRepositoryFragment"
         android:name="com.application.tripapp.ui.science.ScienceRepositoryFragment"
         android:label="ScienceRepositoryFragment"
-        tools:layout="@layout/fragment_repository"/>
+        tools:layout="@layout/fragment_repository">
+        <action
+            android:id="@+id/action_scienceRepositoryFragment_to_experimentFragment"
+            app:destination="@id/experimentFragment" />
+        <action
+            android:id="@+id/action_scienceRepositoryFragment_to_payloadFragment"
+            app:destination="@id/payloadFragment" />
+    </fragment>
     <fragment
         android:id="@+id/pictureOfTheDayFragment"
         android:name="com.application.tripapp.ui.picture.PictureOfTheDayFragment"
@@ -59,4 +70,34 @@
         android:name="com.application.tripapp.ui.saved.pictures.SavedPicturesFragment"
         android:label="SavedPicturesFragment"
         tools:layout="@layout/fragment_saved_pictures"/>
+    <fragment
+        android:id="@+id/asteroidPageFragment"
+        android:name="com.application.tripapp.ui.asteroidpage.AsteroidPageFragment"
+        android:label="AsteroidPageFragment"
+        tools:layout="@layout/fragment_page_asteroid">
+        <action
+            android:id="@+id/action_asteroidPageFragment_to_asteroidsFragment"
+            app:destination="@id/asteroidsFragment" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/payloadFragment"
+        android:name="com.application.tripapp.ui.science.payload.PayloadFragment"
+        android:label="PayloadFragment"
+        tools:layout="@layout/fragment_payload">
+        <action
+            android:id="@+id/action_payloadFragment_to_scienceRepositoryFragment"
+            app:destination="@id/scienceRepositoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/experimentFragment"
+        android:name="com.application.tripapp.ui.science.experiment.ExperimentFragment"
+        android:label="ExperimentFragment"
+        tools:layout="@layout/fragment_experiment">
+        <action
+            android:id="@+id/action_experimentFragment_to_scienceRepositoryFragment"
+            app:destination="@id/scienceRepositoryFragment" />
+    </fragment>
 </navigation>

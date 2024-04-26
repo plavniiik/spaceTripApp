@@ -23,6 +23,7 @@ class PictureViewModel @Inject constructor(
 
     val isPictureAdded = MutableStateFlow<Boolean>(false)
 
+
     fun checkIfPictureIsAdded(picture: PictureEntity) {
         viewModelScope.launch {
             firebaseRepository.isPictureAdded(picture).collect { result ->
@@ -40,14 +41,16 @@ class PictureViewModel @Inject constructor(
     }
 
     private fun loadPicture() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                useCase.getPicture().collect { picture ->
-                    _state.value = PictureState.PictureLoaded(picture)
-                    checkIfPictureIsAdded(picture)
+        if(_state.value is PictureState.PictureLoaded && (_state.value as PictureState.PictureLoaded).picture == null) {
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    useCase.getPicture().collect { picture ->
+                        _state.value = PictureState.PictureLoaded(picture)
+                        checkIfPictureIsAdded(picture)
+                    }
+                } catch (e: Exception) {
+                    _state.value = PictureState.PictureError("Error: ${e.message}")
                 }
-            } catch (e: Exception) {
-                _state.value = PictureState.PictureError("Error: ${e.message}")
             }
         }
     }

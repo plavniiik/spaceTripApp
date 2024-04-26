@@ -15,13 +15,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/im_height_250"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="@dimen/im_height_350"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="centerCrop"/>
+
 
     <ImageView
         android:id="@+id/to_home"
@@ -69,22 +71,23 @@
         android:scrollbars="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:fillViewport="true">
 
         <TextView
             android:id="@+id/description_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="@dimen/margin_20"
             android:layout_marginTop="@dimen/margin_20"
             android:layout_marginEnd="@dimen/margin_8"
             android:scrollHorizontally="false"
             android:textAppearance="@style/regular_style_text"
             android:textSize="@dimen/text_reg_size"
-            android:maxLines="20"
             tools:text="@string/app_name" />
 
     </ScrollView>
+
 
 
 

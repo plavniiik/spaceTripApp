@@ -17,6 +17,7 @@ class SavedPicturesViewHolder(private val binding: ItemPictureBinding) :
             if (it != null) {
                 Glide.with(binding.root.context)
                     .load(picture.url)
+                    .error(Glide.with(it.context).load("https://hightech.fm/wp-content/uploads/2023/02/8888889.jpg"))
                     .into(it)
             }
         }
