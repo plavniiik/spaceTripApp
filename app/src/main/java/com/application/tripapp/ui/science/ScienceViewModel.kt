@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.application.tripapp.model.Payload
 import com.application.tripapp.ui.asteroids.AsteroidAction
 import com.application.tripapp.ui.asteroids.AsteroidState
+import com.application.tripapp.ui.science.payload.SharedViewModel
 import com.application.tripapp.usecase.LoadAsteroidDataUseCase
 import com.application.tripapp.usecase.LoadPayloadExperimentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ScienceViewModel @Inject constructor(
     private val useCase: LoadPayloadExperimentUseCase,
+
 ) : ViewModel() {
 
     val selectedPayload = MutableStateFlow<Payload?>(null)
@@ -41,7 +43,7 @@ class ScienceViewModel @Inject constructor(
                 useCase.getPayloadById(id).collect { payload ->
                     if (payload != null) {
                         _state.value = ScienceState.PayloadLoaded(payload)
-                        selectPayload(payload)
+
                     } else {
                         _state.value = ScienceState.ScienceError("Ничего не найдено")
                     }

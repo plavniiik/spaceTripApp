@@ -27,4 +27,8 @@
     <dimen name="im_h_100dp">100dp</dimen>
     <dimen name="_60dp">60dp</dimen>
     <dimen name="h_20dp">20dp</dimen>
+    <dimen name="_82dp">82dp</dimen>
+    <dimen name="_62dp">62dp</dimen>
+    <dimen name="_200dp">200dp</dimen>
+    <dimen name="_30dp">30dp</dimen>
 </resources>

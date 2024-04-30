@@ -6,4 +6,5 @@ sealed class PictureState {
     class PictureLoaded(val picture: PictureEntity?): PictureState()
     class PictureError(val str: String) : PictureState()
     object PictureAdded : PictureState()
-    object PictureDeleted : PictureState()}
+    object PictureDeleted : PictureState()
+}

@@ -5,6 +5,9 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.telephony.TelephonyManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import com.application.tripapp.R
 import com.application.tripapp.reciever.AirplaneReceiver
 import com.application.tripapp.reciever.CallReciever
@@ -27,7 +30,16 @@ class MainActivity : AppCompatActivity() {
 
         registerReceiver(
             callReceiver, IntentFilter(
-               TelephonyManager.ACTION_PHONE_STATE_CHANGED)
+                TelephonyManager.ACTION_PHONE_STATE_CHANGED
             )
+        )
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+
     }
 }
+
+

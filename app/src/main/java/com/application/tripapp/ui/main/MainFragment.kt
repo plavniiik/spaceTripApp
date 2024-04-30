@@ -17,6 +17,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.application.tripapp.R
 import com.application.tripapp.databinding.FragmentMainBinding
+import com.application.tripapp.ui.asteroids.AsteroidsFragmentDirections
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -56,11 +57,18 @@ class MainFragment : Fragment() {
                                 toDiscover.setOnClickListener {
                                     findNavController().navigate(R.id.action_mainFragment_to_pictureOfTheDayFragment)
                                 }
+
+                                button.setOnClickListener{
+                                    val action = MainFragmentDirections.actionMainFragmentToImagesFragment(inputSearch.text.toString())
+                                    findNavController().navigate(action)
+                                }
                             }
                         }
                         is MainState.PictureError -> {
                             Toast.makeText(requireContext(), state.str, Toast.LENGTH_LONG).show()
                         }
+
+                        else -> {}
                     }
                 }
             }

@@ -3,10 +3,12 @@ package com.application.tripapp.utils
 import com.application.tripapp.db.PictureEntity
 import com.application.tripapp.model.Asteroid
 import com.application.tripapp.model.Payload
+import com.application.tripapp.model.Picture
 import com.application.tripapp.model.PictureOfTheDay
 import com.application.tripapp.network.PictureOfTheDayResponse
 import com.application.tripapp.network.asteroid.NearEarthObjects
 import com.application.tripapp.network.payload.PayloadResponse
+import com.application.tripapp.network.picture.PictureResponse
 import kotlin.math.round
 
 fun PictureOfTheDayResponse.toEntity(): PictureEntity {
@@ -57,6 +59,23 @@ fun convertPayloadResponseToPayload(payloadResponse: PayloadResponse): Payload {
     )
 }
 
-
+fun convertPictureResponseToPicture(pictureResponse: PictureResponse?): List<Picture> {
+    if (pictureResponse != null) {
+        return pictureResponse.collection.items.mapNotNull { item ->
+            if (item.data != null && item.links != null) {
+                Picture(
+                    data = item.data,
+                    href = item.href,
+                    links = item.links,
+                    id = item.data[0].nasa_id,
+                    title = item.data[0].title,
+                    type = item.data[0].media_type,
+                    description = item.data[0].description,
+                    link = item.links[0].href
+                )
+            } else null
+        }
+    } else return emptyList()
+}
 
 

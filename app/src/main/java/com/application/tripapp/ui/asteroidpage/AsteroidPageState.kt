@@ -8,4 +8,6 @@ sealed class AsteroidPageState {
 
     class AsteroidLoaded(val asteroid: Asteroid?): AsteroidPageState()
     class AsteroidError(val str: String) : AsteroidPageState()
+    object AsteroidAdded : AsteroidPageState()
+    object AsteroidDeleted : AsteroidPageState()
 }

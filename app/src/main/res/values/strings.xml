@@ -37,4 +37,9 @@
     <string name="repository">REPOSITORY</string>
     <string name="experiment">Experiment</string>
     <string name="payload">Payload</string>
+    <string name="results_for_your_request">Results for your request. Click on pic to learn more</string>
+    <string name="f">)</string>
+    <string name="about_picture">About picture</string>
+    <string name="send_to">Send to</string>
+
 </resources>

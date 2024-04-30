@@ -1,5 +1,6 @@
 package com.application.tripapp.ui.main
 
+import com.application.tripapp.model.Picture
 import com.application.tripapp.model.PictureOfTheDay
 
 sealed class MainState {
@@ -21,5 +22,4 @@ sealed class MainState {
         }
     }
     class PictureError(val str: String) : MainState()
-
-}
+   }

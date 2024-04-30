@@ -26,6 +26,8 @@ import com.application.tripapp.ui.asteroids.AsteroidAction
 import com.application.tripapp.ui.asteroids.AsteroidState
 import com.application.tripapp.ui.asteroids.AsteroidViewModel
 import com.application.tripapp.ui.mars.adapter.AsteroidsAdapter
+import com.application.tripapp.ui.picture.PictureAction
+import com.application.tripapp.ui.picture.PictureState
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -59,10 +61,10 @@ class AsteroidPageFragment : Fragment() {
                                     openURL.data = Uri.parse(state.asteroid?.nasa_jpl_url)
                                     startActivity(openURL)
                                 }
-                                if(state.asteroid?.is_potentially_hazardous_asteroid==false){
-                                   pottentHazardous.setImageResource(R.drawable.white_asteroid)
+                                if (state.asteroid?.is_potentially_hazardous_asteroid == false) {
+                                    pottentHazardous.setImageResource(R.drawable.white_asteroid)
                                 }
-                                if(state.asteroid?.is_potentially_hazardous_asteroid==true){
+                                if (state.asteroid?.is_potentially_hazardous_asteroid == true) {
                                     pottentHazardous.setImageResource(R.drawable.red_asteroid)
                                 }
                                 title?.text = state.asteroid?.name
@@ -70,11 +72,34 @@ class AsteroidPageFragment : Fragment() {
                                     findNavController().navigate(R.id.action_asteroidPageFragment_to_asteroidsFragment)
                                 }
                                 absoluteMagnitudeH.text =
-                                   root.context.getString(R.string.magnitude) + state.asteroid?.absolute_magnitude_h.toString()
+                                    root.context.getString(R.string.magnitude) + state.asteroid?.absolute_magnitude_h.toString()
                                 estimatedDiameter.text =
                                     root.context.getString(R.string.diameter) + state.asteroid?.estimated_diameter_max.toString() + "m"
 
+                                like?.setOnClickListener {
+                                    if (viewModel.isAsteroidAdded.value) {
+                                        state.asteroid?.let { asteroid ->
+                                            AsteroidPageAction.DeleteAsteroid(
+                                                asteroid
+                                            )
+                                        }?.let { action ->
+                                            viewModel.processAction(
+                                                action, state.asteroid?.id.toString()
+                                            )
+                                        }
+                                        like.setImageResource(R.drawable.heart)
+                                    } else {
+                                        state.asteroid?.let { asteroid ->
+                                            AsteroidPageAction.AddAsteroid(
+                                                asteroid
+                                            )
+                                        }
+                                            ?.let { action -> viewModel.processAction(action,state.asteroid?.id.toString()) }
+                                        like.setImageResource(R.drawable.full_heart)
+                                    }
+                                }
                             }
+
                             state.asteroid?.close_approach_date.let {
                                 it?.let { it1 -> setList(it1) }
                             }
@@ -83,6 +108,14 @@ class AsteroidPageFragment : Fragment() {
                         is AsteroidPageState.AsteroidError -> {
                             Toast.makeText(requireContext(), state.str, Toast.LENGTH_LONG)
                                 .show()
+                        }
+
+                        is AsteroidPageState.AsteroidAdded -> {
+                            viewModel.isAsteroidAdded.value = true
+                        }
+
+                        is AsteroidPageState.AsteroidDeleted -> {
+                            viewModel.isAsteroidAdded.value = false
                         }
 
                         else -> {
@@ -95,6 +128,17 @@ class AsteroidPageFragment : Fragment() {
 
         id?.let { viewModel.processAction(AsteroidPageAction.LoadAsteroid, it) }
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isAsteroidAdded.collect { isAdded ->
+                    if (isAdded) {
+                        binding?.like?.setImageResource(R.drawable.full_heart)
+                    } else {
+                        binding?.like?.setImageResource(R.drawable.heart)
+                    }
+                }
+            }
+        }
     }
 
 

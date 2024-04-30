@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_mainFragment_to_pictureOfTheDayFragment"
             app:destination="@id/pictureOfTheDayFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_imagesFragment"
+            app:destination="@id/imagesFragment" />
     </fragment>
     <fragment
         android:id="@+id/marsFragment"
@@ -45,9 +48,7 @@
         android:name="com.application.tripapp.ui.science.ScienceRepositoryFragment"
         android:label="ScienceRepositoryFragment"
         tools:layout="@layout/fragment_repository">
-        <action
-            android:id="@+id/action_scienceRepositoryFragment_to_experimentFragment"
-            app:destination="@id/experimentFragment" />
+
         <action
             android:id="@+id/action_scienceRepositoryFragment_to_payloadFragment"
             app:destination="@id/payloadFragment" />
@@ -69,7 +70,11 @@
         android:id="@+id/savedPicturesFragment"
         android:name="com.application.tripapp.ui.saved.pictures.SavedPicturesFragment"
         android:label="SavedPicturesFragment"
-        tools:layout="@layout/fragment_saved_pictures"/>
+        tools:layout="@layout/fragment_saved_pictures">
+        <action
+            android:id="@+id/action_savedPicturesFragment_to_savedAsteroidsFragment"
+            app:destination="@id/savedAsteroidsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/asteroidPageFragment"
         android:name="com.application.tripapp.ui.asteroidpage.AsteroidPageFragment"
@@ -92,12 +97,42 @@
             app:destination="@id/scienceRepositoryFragment" />
     </fragment>
     <fragment
-        android:id="@+id/experimentFragment"
-        android:name="com.application.tripapp.ui.science.experiment.ExperimentFragment"
-        android:label="ExperimentFragment"
-        tools:layout="@layout/fragment_experiment">
+        android:id="@+id/imagesFragment"
+        android:name="com.application.tripapp.ui.main.images.ImagesFragment"
+        android:label="ImagesFragment"
+        tools:layout="@layout/fragment_images">
         <action
-            android:id="@+id/action_experimentFragment_to_scienceRepositoryFragment"
-            app:destination="@id/scienceRepositoryFragment" />
+            android:id="@+id/action_imagesFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <argument
+            android:name="keyWord"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_imagesFragment_to_imagePageFragment"
+            app:destination="@id/imagePageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/imagePageFragment"
+        android:name="com.application.tripapp.ui.main.images.imagepage.ImagePageFragment"
+        android:label="ImagePageFragment">
+        <action
+            android:id="@+id/action_imagePageFragment_to_imagesFragment"
+            app:destination="@id/imagesFragment" />
+        <argument
+            android:name="keyWord"
+            app:argType="string" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="tripspacenasa.com/image/{keyWord}"
+            app:action="android.intent.action.VIEW"/>
+    </fragment>
+    <fragment
+        android:id="@+id/savedAsteroidsFragment"
+        android:name="com.application.tripapp.ui.saved.asteroids.SavedAsteroidsFragment"
+        android:label="SavedAsteroidsFragment"
+        tools:layout="@layout/fragment_saved_asteroids">
+        <action
+            android:id="@+id/action_savedAsteroidsFragment_to_savedPicturesFragment"
+            app:destination="@id/savedPicturesFragment" />
     </fragment>
 </navigation>

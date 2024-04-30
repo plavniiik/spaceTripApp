@@ -29,10 +29,15 @@
     <fragment
         android:id="@+id/menuFragment"
         android:name="com.application.tripapp.ui.MenuFragment"
-        android:label="MenuFragment" >
+        android:label="MenuFragment">
         <action
             android:id="@+id/action_menuFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+       <!-- <deepLink
+            android:id="@+id/deepLink"
+            app:uri="tripspacenasa.com/home"
+            app:action="android.intent.action.VIEW"/>-->
+
     </fragment>
     <fragment
         android:id="@+id/firstFragment"
