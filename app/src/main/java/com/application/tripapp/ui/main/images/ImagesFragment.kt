@@ -41,15 +41,18 @@ class ImagesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val keyWord = arguments?.getString("keyWord")
+        binding?.progressBar?.visibility = View.VISIBLE
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
                     when (state) {
                         is ImageState.PicturesLoaded -> {
                             setList(state.pictures)
+                            binding?.progressBar?.visibility = View.GONE
                         }
                         is ImageState.PicturesError -> {
                             Toast.makeText(requireContext(), state.str, Toast.LENGTH_LONG).show()
+                            binding?.check?.visibility = View.VISIBLE
                         }
 
                         else -> {}

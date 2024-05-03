@@ -11,6 +11,7 @@ import retrofit2.http.Path
 interface Api {
     @GET("planetary/apod")
     suspend fun getPictureOfTheDay(): Response<PictureOfTheDayResponse>
+
     @GET("mars-photos/api/v1/rovers/curiosity/photos")
     suspend fun getMarsRoverImages(@Query("earth_date") earthDate: String): Response<MarsRoverImagesResponse>
 
@@ -18,7 +19,7 @@ interface Api {
     suspend fun getAsteroids(
         @Query("start_date") startDate: String,
         @Query("end_date") endDate: String,
-        ): Response<AsteroidResponse>
+    ): Response<AsteroidResponse>
 
     @GET("neo/rest/v1/neo/{id}")
     suspend fun getAsteroidById(@Path("id") id: String): Response<NearEarthObjects>

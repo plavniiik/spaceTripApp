@@ -2,8 +2,8 @@ package com.application.tripapp.model
 
 import com.application.tripapp.network.asteroid.CloseApproachData
 
-data class Asteroid (
-    val id:Int,
+data class Asteroid(
+    val id: Int,
     val nasa_jpl_url: String,
     val name: String,
     val absolute_magnitude_h: Double,

@@ -1,7 +1,10 @@
 package com.application.tripapp.ui.science.payload
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
+import android.print.PrintAttributes
+import android.print.PrintManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import com.application.tripapp.R
 import com.application.tripapp.databinding.FragmentPayloadBinding
 import com.application.tripapp.databinding.FragmentRepositoryBinding
+import com.application.tripapp.print.PrintAdapter
 import com.application.tripapp.ui.science.ScienceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -53,6 +57,11 @@ class PayloadFragment : Fragment() {
                         binding?.id?.text = payload.identifierLowercase
                         binding?.toHome?.setOnClickListener {
                             findNavController().navigate(R.id.action_payloadFragment_to_scienceRepositoryFragment)
+                        }
+                        binding?.toExport?.setOnClickListener {
+                            val printManager = requireContext().getSystemService(Context.PRINT_SERVICE) as PrintManager
+                            val jobName = getString(R.string.app_name) + " Document"
+                            printManager.print(jobName, PrintAdapter(requireContext(), binding!!.root),null )
                         }
                     }
 

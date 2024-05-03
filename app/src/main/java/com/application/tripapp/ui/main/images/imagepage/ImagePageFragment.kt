@@ -21,6 +21,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.application.tripapp.R
 import com.application.tripapp.databinding.FragmentImageBinding
 import com.bumptech.glide.Glide
@@ -65,6 +66,9 @@ class ImagePageFragment : Fragment() {
                                             .into(it)
                                     }
                                 }
+                            }
+                            binding?.toHome?.setOnClickListener {
+                                findNavController().navigate(R.id.action_imagePageFragment_to_mainFragment)
                             }
                             binding?.shared?.setOnClickListener {
                                 val id = arguments?.getString("keyWord")
@@ -132,8 +136,8 @@ class ImagePageFragment : Fragment() {
         val fileName = "${System.currentTimeMillis()}.$fileExtension"
 
         val request = DownloadManager.Request(Uri.parse(url))
-            .setTitle("Download")
-            .setDescription("Downloading")
+            .setTitle(getString(R.string.download))
+            .setDescription(getString(R.string.downloading))
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
             .setAllowedOverMetered(true)

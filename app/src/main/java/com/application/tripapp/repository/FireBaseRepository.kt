@@ -117,7 +117,7 @@ class FireBaseRepository @Inject constructor(
                     }
                 })
         } else {
-            Log.e("FireBaseRepository", "User is not logged in")
+
         }
     }
 

@@ -41,5 +41,23 @@
     <string name="f">)</string>
     <string name="about_picture">About picture</string>
     <string name="send_to">Send to</string>
+    <string name="picture_of_the_day">Picture of the Day</string>
+    <string name="new_picture_of_the_day">New Picture of the Day!</string>
+    <string name="astronomy">Astronomy</string>
+    <string name="galaxy">Galaxy</string>
+    <string name="search_the_moon">Search the Moon</string>
+    <string name="there_is_no_matching_information_for_your_request">There is no matching information for your request</string>
+    <string name="search_for_e_g_biocore">Search for.. (e.g. Biocore)</string>
+    <string name="find_the_payload_or_experiment_you_want_to_read_about">find the payload or experiment you want to read about</string>
+    <string name="nothing_has_been_added_yet">Nothing has been added yet</string>
+    <string name="search">Search</string>
+    <string name="enter_date">Enter date</string>
+    <string name="enter_start_date">Enter start</string>
+    <string name="enter_end_date">Enter end</string>
+    <string name="field_is_empty">Field is empty</string>
+    <string name="email_is_invalid">Email is invalid</string>
+    <string name="return_to_log_in_page">Return to Log In Page</string>
+    <string name="download">Download</string>
+    <string name="downloading">Downloading</string>
 
 </resources>

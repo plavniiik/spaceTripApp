@@ -12,22 +12,36 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
 class MarsRoverViewModel @Inject constructor(
     private val loadRoverPictureUseCase: LoadRoverPictureUseCase
 ) : ViewModel() {
 
 
-    private val _state = MutableStateFlow<MarsRoverState>(MarsRoverState.PicturesLoaded(emptyList()))
+    private val _state =
+        MutableStateFlow<MarsRoverState>(MarsRoverState.Loading)
     val state: StateFlow<MarsRoverState> get() = _state
 
 
-    fun processAction(action: MarsRoverAction,date: String) {
+    fun processAction(action: MarsRoverAction, date: String) {
         when (action) {
             is MarsRoverAction.LoadPicture -> loadImages(date)
+            is MarsRoverAction.Loading -> loading()
             else -> {}
         }
     }
+
+    fun loading() {
+        viewModelScope.launch {
+            try {
+                _state.value = MarsRoverState.Loading
+            } catch (e: Exception) {
+                _state.value = MarsRoverState.PicturesError("Error: ${e.message}")
+            }
+        }
+    }
+
 
     fun loadImages(date: String) {
         viewModelScope.launch {

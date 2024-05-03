@@ -9,6 +9,9 @@ class SavedPicturesViewHolder(private val binding: ItemPictureBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(picture: PictureEntity, onPictureClick: (id: String) -> Unit) {
+        binding.like.setOnClickListener {
+            onPictureClick(picture.id)
+        }
         binding.title.text = picture.title
         binding.imageView.setOnClickListener {
             onPictureClick(picture.id)

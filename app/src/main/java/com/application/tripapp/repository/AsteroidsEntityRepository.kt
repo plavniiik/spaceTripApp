@@ -26,7 +26,7 @@ class AsteroidsEntityRepository @Inject constructor(
     val listAsteroids = MutableStateFlow<List<AsteroidEntity>>(emptyList())
     private val _hasAsteroid = MutableStateFlow<Boolean?>(null)
     val hasAsteroid: StateFlow<Boolean?> get() = _hasAsteroid
-    fun getAsteroidList( coroutineScope: CoroutineScope) {
+    fun getAsteroidList(coroutineScope: CoroutineScope) {
         val userId = firebaseAuth.currentUser?.uid
         coroutineScope.launch {
             userId?.let {
@@ -51,7 +51,7 @@ class AsteroidsEntityRepository @Inject constructor(
             )
             asteroidDAO.addAsteroid(asteroidEntity)
         } else {
-            Log.e("FireBaseRepository", "User is not logged in")
+
         }
     }
 
@@ -70,6 +70,7 @@ class AsteroidsEntityRepository @Inject constructor(
             emit(false)
         }
     }
+
     fun hasAsteroid(asteroidId: String, coroutineScope: CoroutineScope): Flow<Boolean> = flow {
         val userId = firebaseAuth.currentUser?.uid
         if (userId != null) {

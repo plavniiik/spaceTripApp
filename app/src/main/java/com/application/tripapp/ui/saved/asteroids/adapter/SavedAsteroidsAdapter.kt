@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.application.tripapp.databinding.ItemMyAsteroidsBinding
 import com.application.tripapp.db.AsteroidEntity
 
-class SavedAsteroidsAdapter (private val onPictureClick: (id: Long) -> Unit) :
+class SavedAsteroidsAdapter(private val onPictureClick: (id: Long) -> Unit) :
     ListAdapter<AsteroidEntity, SavedAsteroidsViewHolder>(object :
         DiffUtil.ItemCallback<AsteroidEntity>() {
         override fun areItemsTheSame(oldItem: AsteroidEntity, newItem: AsteroidEntity): Boolean {

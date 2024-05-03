@@ -41,7 +41,7 @@ class PictureViewModel @Inject constructor(
     }
 
     private fun loadPicture() {
-        if(_state.value is PictureState.PictureLoaded && (_state.value as PictureState.PictureLoaded).picture == null) {
+        if (_state.value is PictureState.PictureLoaded && (_state.value as PictureState.PictureLoaded).picture == null) {
             viewModelScope.launch(Dispatchers.IO) {
                 try {
                     useCase.getPicture().collect { picture ->

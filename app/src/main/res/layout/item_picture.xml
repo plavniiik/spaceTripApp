@@ -7,12 +7,12 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/icard"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/im_h_100dp"
+        android:layout_height="@dimen/im_w_300dp"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="@dimen/margin_8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:cardCornerRadius="16dp">
+        app:cardCornerRadius="@dimen/_16dp">
 
         <ImageView
             android:id="@+id/image_view"
@@ -31,5 +31,12 @@
         app:layout_constraintStart_toStartOf="@id/icard"
         app:layout_constraintTop_toBottomOf="@id/icard"
         tools:text="Title" />
-
+    <ImageView
+        android:id="@+id/like"
+        android:layout_width="@dimen/_60dp"
+        android:layout_height="@dimen/_60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/title"
+        android:background="@drawable/full_heart"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

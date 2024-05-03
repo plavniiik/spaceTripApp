@@ -29,15 +29,16 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.run {
+
             logoutTitle?.setOnClickListener {
                 requireActivity().findNavController(R.id.main_nav).apply {
                     navigate(R.id.action_menuFragment_to_loginFragment)
-                    Log.d("MyTag", " ЗАШЕЛ")
+
                 }
-                    viewModel.logout()
+                viewModel.logout()
             }
 
-            my.setOnClickListener {
+            myTitle.setOnClickListener {
                 findNavController().navigate(R.id.action_profileFragment_to_savedPicturesFragment)
             }
         }

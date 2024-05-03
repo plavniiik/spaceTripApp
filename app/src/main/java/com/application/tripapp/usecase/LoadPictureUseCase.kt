@@ -2,6 +2,7 @@ package com.application.tripapp.usecase
 
 import com.application.tripapp.db.PictureEntity
 import com.application.tripapp.model.PictureOfTheDay
+import com.application.tripapp.network.PictureOfTheDayResponse
 import com.application.tripapp.repository.FireBaseRepository
 import com.application.tripapp.repository.PictureOfTheDayRepository
 import com.application.tripapp.utils.toEntity
@@ -24,6 +25,15 @@ class LoadPictureUseCase @Inject constructor(
         }
     }
 
+    suspend fun getPictureOfTheDayWorker(): Flow<PictureOfTheDayResponse> = flow {
+        val response = repository.getPicture()
+        if (response.isSuccessful) {
+            response.body()?.let {
+                emit(it)
+            }
+        }
+    }
+
     suspend fun getPicture(): Flow<PictureEntity> = flow {
         val response = repository.getPicture()
         if (response.isSuccessful) {
@@ -40,3 +50,4 @@ class LoadPictureUseCase @Inject constructor(
     }.take(10)
 
 }
+

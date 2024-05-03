@@ -15,12 +15,21 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagingData
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.application.tripapp.R
 import com.application.tripapp.databinding.FragmentMainBinding
+import com.application.tripapp.model.Picture
 import com.application.tripapp.ui.asteroids.AsteroidsFragmentDirections
+import com.application.tripapp.ui.main.images.ImagesFragmentDirections
+import com.application.tripapp.ui.main.images.adapter.ImageAdapter
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 @AndroidEntryPoint
 class MainFragment : Fragment() {
     private var binding: FragmentMainBinding? = null
@@ -49,7 +58,10 @@ class MainFragment : Fragment() {
                                         binding?.root?.let { it1 ->
                                             Glide.with(it1.context)
                                                 .load(state.picture?.url)
-                                                .error(Glide.with(it1.context).load("https://hightech.fm/wp-content/uploads/2023/02/8888889.jpg"))
+                                                .error(
+                                                    Glide.with(it1.context)
+                                                        .load("https://hightech.fm/wp-content/uploads/2023/02/8888889.jpg")
+                                                )
                                                 .into(it)
                                         }
                                     }
@@ -58,12 +70,16 @@ class MainFragment : Fragment() {
                                     findNavController().navigate(R.id.action_mainFragment_to_pictureOfTheDayFragment)
                                 }
 
-                                button.setOnClickListener{
-                                    val action = MainFragmentDirections.actionMainFragmentToImagesFragment(inputSearch.text.toString())
+                                button.setOnClickListener {
+                                    val action =
+                                        MainFragmentDirections.actionMainFragmentToImagesFragment(
+                                            inputSearch.text.toString()
+                                        )
                                     findNavController().navigate(action)
                                 }
                             }
                         }
+
                         is MainState.PictureError -> {
                             Toast.makeText(requireContext(), state.str, Toast.LENGTH_LONG).show()
                         }
@@ -71,8 +87,38 @@ class MainFragment : Fragment() {
                         else -> {}
                     }
                 }
+
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.stateGalaxy.collect { pagingData ->
+                    setList(pagingData, binding?.recyclerView)
+                }
+
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.stateAstronomy.collect { pagingData ->
+                    setList(pagingData, binding?.recyclerView2)
+                }
             }
         }
         viewModel.processAction(MainAction.LoadPicture)
+
+    }
+
+    private suspend fun setList(pagingData: PagingData<Picture>, recyclerView: RecyclerView?) {
+        recyclerView?.run {
+            if (adapter == null) {
+                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                adapter = ImageAdapter { idPic ->
+                    val action = MainFragmentDirections.actionMainFragmentToImagePageFragment(idPic)
+                    findNavController().navigate(action)
+                }
+            }
+            (adapter as? ImageAdapter)?.submitData(pagingData)
+        }
     }
 }

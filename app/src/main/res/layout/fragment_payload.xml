@@ -22,7 +22,15 @@
         android:background="@drawable/to_home"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <ImageView
+        android:id="@+id/to_export"
+        android:layout_width="@dimen/_30dp"
+        android:layout_height="@dimen/_30dp"
+        android:layout_marginEnd="@dimen/margin_8"
+        android:layout_marginTop="@dimen/margin_14"
+        android:background="@drawable/upload"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -30,13 +38,15 @@
         android:text="@string/payload"
         android:textAppearance="@style/regular_style_text"
         android:textSize="@dimen/text_46sp"
+        android:layout_marginTop="@dimen/margin_4"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/description" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/null_h"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title">
 
@@ -45,30 +55,17 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_20"
-                android:layout_marginTop="@dimen/margin_20"
-                android:layout_marginEnd="@dimen/margin_8"
-                android:scrollHorizontally="false"
-                android:textAppearance="@style/reg_style_black"
-                android:textSize="@dimen/title_20"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="date" />
-
-            <TextView
                 android:id="@+id/title_p"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_14"
                 android:layout_marginTop="@dimen/margin_20"
-                android:layout_marginEnd="@dimen/margin_8"
+                android:layout_marginEnd="@dimen/margin_14"
                 android:scrollHorizontally="false"
                 android:textAppearance="@style/bold_style_black"
                 android:textSize="@dimen/text_46sp"
-                app:layout_constraintStart_toStartOf="@id/date"
-                app:layout_constraintTop_toBottomOf="@id/date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Title" />
 
             <TextView
@@ -76,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_20"
-                android:layout_marginEnd="@dimen/margin_8"
+                android:layout_marginEnd="@dimen/margin_14"
                 android:scrollHorizontally="false"
                 android:textAppearance="@style/reg_style_black"
                 android:textSize="@dimen/title_20"
@@ -88,7 +85,7 @@
                 android:id="@+id/id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_8"
+                android:layout_marginEnd="@dimen/margin_14"
                 android:scrollHorizontally="false"
                 android:textAppearance="@style/bold_style_black"
                 android:textSize="@dimen/text_reg_size"

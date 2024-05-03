@@ -10,11 +10,13 @@ import com.application.tripapp.model.Picture
 import com.application.tripapp.repository.PicturePagingSource
 import com.application.tripapp.repository.PicturePagingSourceFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -46,7 +48,13 @@ class ImageViewModel @Inject constructor(
 
         viewModelScope.launch {
             pager.collectLatest { pagingData ->
-                _state.value = ImageState.PicturesLoaded(pagingData)
+
+                if (pagingData==null) {
+                    _state.value = ImageState.PicturesError("No pictures found")}
+                    else{
+                    _state.value = ImageState.PicturesLoaded(pagingData)
+                    }
+
             }
         }
     }

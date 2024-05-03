@@ -13,6 +13,7 @@ interface PictureApi {
         @Query("page") page: Int,
         @Query("page_size") pageSize: Int
     ): Response<PictureResponse>
+
     @GET("search")
     suspend fun getImage(
         @Query("q") query: String,

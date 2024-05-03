@@ -1,6 +1,7 @@
 package com.application.tripapp.ui.science
 
 import android.annotation.SuppressLint
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -42,13 +43,15 @@ class ScienceRepositoryFragment : Fragment() {
                 viewModel.state.collect { state ->
                     when (state) {
                         is ScienceState.PayloadLoaded -> {
-                            state.payload?.let { sharedViewModel.selectPayload(it) }
+                            state.payload?.let {
+                                sharedViewModel.selectPayload(it)
+                            }
                             findNavController().navigate(R.id.action_scienceRepositoryFragment_to_payloadFragment)
-
                         }
 
                         is ScienceState.ScienceError -> {
-
+                            binding?.progressBar?.visibility = View.GONE
+                            binding?.check?.visibility = View.VISIBLE
                         }
 
                         else -> {
@@ -59,8 +62,11 @@ class ScienceRepositoryFragment : Fragment() {
                 }
             }
         }
-        binding?.button?.setOnClickListener{
-            viewModel.processAction(ScienceAction.LoadData,binding?.inputSearch?.text.toString())
+        binding?.button?.setOnClickListener {
+            binding?.progressBar?.visibility = View.VISIBLE
+            binding?.check?.visibility = View.GONE
+            val inputText = binding?.inputSearch?.text.toString().toUpperCase().trim()
+            viewModel.processAction(ScienceAction.LoadData, inputText)
         }
     }
 }

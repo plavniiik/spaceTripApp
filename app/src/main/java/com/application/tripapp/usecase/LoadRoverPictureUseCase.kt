@@ -9,7 +9,6 @@ import javax.inject.Inject
 class LoadRoverPictureUseCase @Inject constructor(
     private val repository: MarsRoverRepository
 ) {
-
     suspend fun getPicture(date:String): Flow<List<MarsImage>> = flow {
         val response = repository.getRoverImages(date)
         if (response.isSuccessful) {

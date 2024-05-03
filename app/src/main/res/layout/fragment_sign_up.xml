@@ -72,7 +72,7 @@
         android:id="@+id/signIn_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Return to Log In Page"
+        android:text="@string/return_to_log_in_page"
         android:textAppearance="@style/regular_style_text"
         android:textSize="@dimen/text_small_size"
         app:layout_constraintStart_toStartOf="parent"

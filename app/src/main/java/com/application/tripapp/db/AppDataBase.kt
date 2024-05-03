@@ -6,7 +6,6 @@ import androidx.room.TypeConverters
 
 @Database(entities = [AsteroidEntity::class], version = 1)
 abstract class AppDataBase : RoomDatabase() {
-
     abstract fun getAsteroidDao(): AsteroidDAO
 
 }

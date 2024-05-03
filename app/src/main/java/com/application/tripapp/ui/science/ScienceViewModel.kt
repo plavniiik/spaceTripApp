@@ -45,12 +45,12 @@ class ScienceViewModel @Inject constructor(
                         _state.value = ScienceState.PayloadLoaded(payload)
 
                     } else {
-                        _state.value = ScienceState.ScienceError("Ничего не найдено")
+                        _state.value = ScienceState.ScienceError("There is nothing")
                     }
 
                 }
             } catch (e: Exception) {
-                _state.value = ScienceState.ScienceError("Ошибка: ${e.message}")
+                _state.value = ScienceState.ScienceError("Error: ${e.message}")
             }
         }
     }

@@ -8,10 +8,10 @@ import com.application.tripapp.utils.convertPayloadResponseToPayload
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+
 class LoadPayloadExperimentUseCase @Inject constructor(
     private val repository: PayloadExperimentRepository
 ) {
-
 
     suspend fun getPayloadById(id: String): Flow<Payload?> = flow {
         val response = repository.getPayload(id)

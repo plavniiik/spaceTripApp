@@ -11,6 +11,6 @@ data class Picture
     val id: String,
     val title: String,
     val type: String,
-    val description: String,
+    val description: String?,
     val link: String
 )

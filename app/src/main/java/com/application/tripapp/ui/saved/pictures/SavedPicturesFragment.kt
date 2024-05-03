@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.application.tripapp.R
 import com.application.tripapp.databinding.FragmentSavedPicturesBinding
 import com.application.tripapp.db.PictureEntity
+import com.application.tripapp.ui.saved.asteroids.SavedAsteroidsAction
 import com.application.tripapp.ui.saved.pictures.adapter.SavedPicturesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -64,7 +65,7 @@ class SavedPicturesFragment : Fragment() {
             }
         }
 
-        viewModel.processAction(SavedPicturesAction.Load)
+        viewModel.processAction(SavedPicturesAction.Load,"")
 
     }
 
@@ -73,6 +74,7 @@ class SavedPicturesFragment : Fragment() {
             if (adapter == null) {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = SavedPicturesAdapter { idPic ->
+                    viewModel.processAction(SavedPicturesAction.DeletePictures,idPic)
                 }
             }
             (adapter as? SavedPicturesAdapter)?.submitList(list)

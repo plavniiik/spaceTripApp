@@ -14,6 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.application.noteproject.utils.validation.CalendarHelper
 import com.application.tripapp.databinding.FragmentMarsRoversBinding
 import com.application.tripapp.model.MarsImage
 import com.application.tripapp.ui.mars.adapter.AsteroidsAdapter
@@ -27,8 +28,10 @@ import java.util.Calendar
 class MarsFragment : Fragment() {
     private var binding: FragmentMarsRoversBinding? = null
     private val viewModel: MarsRoverViewModel by viewModels()
+    private val calendarHelper: CalendarHelper<FragmentMarsRoversBinding> by lazy {
+        CalendarHelper(requireContext(), binding)}
 
-    override fun onCreateView(
+        override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -39,17 +42,30 @@ class MarsFragment : Fragment() {
     @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding?.progressBar?.visibility = View.GONE
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.state.collect{state ->
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { state ->
                     when (state) {
                         is MarsRoverState.PicturesLoaded -> {
+
                             state.pictures.let {
-                                setList(it)
+                                if (it.isEmpty()) {
+                                    setList(emptyList())
+                                    binding?.check?.visibility = View.VISIBLE
+                                } else {
+                                    setList(it)
+                                    binding?.check?.visibility = View.GONE
+                                }
                             }
+                            binding?.progressBar?.visibility = View.GONE
                         }
 
                         is MarsRoverState.PicturesError -> {
+                            binding?.progressBar?.visibility = View.GONE
+                        }
+
+                        is MarsRoverState.Loading -> {
 
                         }
 
@@ -61,26 +77,16 @@ class MarsFragment : Fragment() {
                 }
             }
         }
-        viewModel.processAction(MarsRoverAction.LoadPicture,"2015-6-3")
-
-        binding?.calendar?.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-                val c: Calendar = Calendar.getInstance()
-                val mYear: Int = c.get(Calendar.YEAR)
-                val mMonth: Int = c.get(Calendar.MONTH)
-                val mDay: Int = c.get(Calendar.DAY_OF_MONTH)
-                val datePickerDialog = DatePickerDialog(requireContext(),
-                    OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                        binding?.inputSearch?.setText(
-                            "${year}-${monthOfYear + 1}-${dayOfMonth}"
-                        )
-                    }, mYear, mMonth, mDay
-                )
-                datePickerDialog.show()
-            }
+        binding?.calendar?.setOnClickListener(binding?.inputSearch?.let {
+            calendarHelper.getStartDatePicker(
+                it
+            )
         })
 
+
         binding?.button?.setOnClickListener {
+            binding?.check?.visibility = View.GONE
+            binding?.progressBar?.visibility = View.VISIBLE
             val inputDate = binding?.inputSearch?.text.toString()
             if (inputDate.isNotEmpty()) {
                 viewModel.processAction(MarsRoverAction.LoadPicture, inputDate)
@@ -91,6 +97,8 @@ class MarsFragment : Fragment() {
     }
 
     private fun setList(list: List<MarsImage>) {
+
+        binding?.check?.visibility = View.GONE
         binding?.recyclerView?.run {
             if (adapter == null) {
                 layoutManager = LinearLayoutManager(requireContext())
@@ -101,4 +109,5 @@ class MarsFragment : Fragment() {
         }
     }
 }
+
 

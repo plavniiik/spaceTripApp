@@ -1,70 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/black">
 
     <EditText
-        android:id="@+id/input_search_end"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/login_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/search_input"
-        android:hint="Enter end date"
-        android:inputType="text"
-        android:textSize="@dimen/text_reg_size"
+        android:id="@+id/input_search"
         style="@style/input_text"
+        android:layout_width="@dimen/_180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_8"
         android:layout_marginTop="@dimen/margin_40"
+        android:background="@drawable/search_input"
+        android:hint="@string/enter_start_date"
+        android:inputType="text"
         android:paddingStart="@dimen/padding_10"
+        android:textSize="@dimen/text_reg_size"
+        app:layout_constraintEnd_toStartOf="@id/input_search_end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_title" />
+
+    <EditText
+        android:id="@+id/input_search_end"
+        style="@style/input_text"
+        android:layout_width="@dimen/_180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_40"
         android:layout_marginEnd="@dimen/margin_8"
+        android:background="@drawable/search_input"
+        android:hint="@string/enter_end_date"
+        android:inputType="text"
+        android:paddingStart="@dimen/padding_10"
+        android:textSize="@dimen/text_reg_size"
+        app:layout_constraintEnd_toEndOf="@id/recyclerView"
+        app:layout_constraintStart_toEndOf="@id/input_search"
+        app:layout_constraintTop_toBottomOf="@id/login_title"
+
         />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button"
         android:layout_width="@dimen/_20dp"
         android:layout_height="@dimen/_20dp"
-        android:background="@drawable/search"
-        app:layout_constraintTop_toTopOf="@id/input_search_end"
-        app:layout_constraintEnd_toEndOf="@id/input_search_end"
         android:layout_marginTop="@dimen/margin_14"
-        android:layout_marginEnd="@dimen/margin_14"/>
+        android:layout_marginEnd="@dimen/margin_14"
+        android:background="@drawable/search"
+        app:layout_constraintEnd_toEndOf="@id/input_search_end"
+        app:layout_constraintTop_toTopOf="@id/input_search_end" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/calendar_end"
         android:layout_width="@dimen/_20dp"
         android:layout_height="@dimen/_20dp"
-        android:background="@drawable/category"
-        app:layout_constraintTop_toTopOf="@id/input_search"
-        app:layout_constraintEnd_toStartOf="@id/button"
         android:layout_marginTop="@dimen/margin_14"
-        android:layout_marginEnd="@dimen/margin_14"/>
-    <EditText
-        android:id="@+id/input_search"
-        android:layout_width="180dp"
+        android:layout_marginEnd="@dimen/margin_14"
+        android:background="@drawable/category"
+        app:layout_constraintEnd_toStartOf="@id/button"
+        app:layout_constraintTop_toTopOf="@id/input_search" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/popupWindowStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/login_title"
+        android:layout_marginTop="@dimen/margin_8"
+        android:indeterminate="true"
+        android:indeterminateTint="#FFFFFF"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/search_input"
-        android:hint="Enter start date"
-        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@+id/input_search" />
+
+    <TextView
+        android:id="@+id/check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_20"
+        android:text="@string/there_is_no_matching_information_for_your_request"
+        android:textAppearance="@style/regular_style_text"
         android:textSize="@dimen/text_reg_size"
-        style="@style/input_text"
-        android:layout_marginTop="@dimen/margin_40"
-        android:paddingStart="@dimen/padding_10"
-        android:layout_marginStart="@dimen/margin_8"
-        />
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_search" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/calendar"
         android:layout_width="@dimen/_20dp"
         android:layout_height="@dimen/_20dp"
-        android:background="@drawable/category"
-        app:layout_constraintTop_toTopOf="@id/input_search"
-        app:layout_constraintEnd_toEndOf="@id/input_search"
         android:layout_marginTop="@dimen/margin_14"
-        android:layout_marginEnd="@dimen/margin_14"/>
+        android:layout_marginEnd="@dimen/margin_14"
+        android:background="@drawable/category"
+        app:layout_constraintEnd_toEndOf="@id/input_search"
+        app:layout_constraintTop_toTopOf="@id/input_search" />
+
     <ImageView
         android:id="@+id/stars"
         android:layout_width="wrap_content"
@@ -74,22 +104,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/login_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_40"
         android:text="@string/asteroids_big"
         android:textAppearance="@style/regular_style_text"
         android:textSize="@dimen/text_46sp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/margin_40"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_marginTop="@dimen/margin_40"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/null_h"
+        android:layout_marginTop="@dimen/_52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/input_search"
         tools:listitem="@layout/item_asteroid" />

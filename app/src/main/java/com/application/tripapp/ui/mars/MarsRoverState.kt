@@ -8,5 +8,6 @@ sealed class MarsRoverState {
 
     class PicturesLoaded(val pictures: List<MarsImage>): MarsRoverState()
     class PicturesError(val str: String) : MarsRoverState()
+    data object Loading : MarsRoverState()
 
 }

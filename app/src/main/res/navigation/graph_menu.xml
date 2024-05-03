@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_mainFragment_to_imagesFragment"
             app:destination="@id/imagesFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_imagePageFragment"
+            app:destination="@id/imagePageFragment" />
     </fragment>
     <fragment
         android:id="@+id/marsFragment"
@@ -38,7 +41,9 @@
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_loginFragment2"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_profileFragment_to_savedPicturesFragment"
             app:destination="@id/savedPicturesFragment" />
@@ -125,6 +130,10 @@
             android:id="@+id/deepLink"
             app:uri="tripspacenasa.com/image/{keyWord}"
             app:action="android.intent.action.VIEW"/>
+        <action
+            android:id="@+id/action_imagePageFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/savedAsteroidsFragment"

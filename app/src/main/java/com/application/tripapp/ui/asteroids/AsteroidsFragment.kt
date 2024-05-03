@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.application.noteproject.utils.validation.CalendarHelper
 import com.application.tripapp.R
 import com.application.tripapp.databinding.FragmentAsteroidsBinding
 import com.application.tripapp.model.Asteroid
@@ -30,6 +31,9 @@ import java.util.Calendar
 class AsteroidsFragment : Fragment() {
     private var binding: FragmentAsteroidsBinding? = null
     private val viewModel: AsteroidViewModel by viewModels()
+    private val calendarHelper: CalendarHelper<FragmentAsteroidsBinding> by lazy {
+        CalendarHelper(requireContext(), binding)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,12 +52,21 @@ class AsteroidsFragment : Fragment() {
                     when (state) {
                         is AsteroidState.AsteroidLoaded -> {
                             state.asteroids.let {
-                                it?.let { it1 -> setList(it1) }
+                                binding?.progressBar?.visibility = View.GONE
+                                it?.let { list ->
+                                    if (list.isEmpty()) {
+                                        setList(emptyList())
+                                        binding?.check?.visibility = View.VISIBLE
+                                    } else {
+                                        setList(list)
+                                        binding?.check?.visibility = View.GONE
+                                    }
+                                }
                             }
                         }
 
                         is AsteroidState.AsteroidsError -> {
-
+                            binding?.check?.visibility = View.VISIBLE
                         }
 
                         else -> {
@@ -64,45 +77,21 @@ class AsteroidsFragment : Fragment() {
                 }
             }
         }
-        viewModel.processAction(AsteroidAction.LoadAsteroid, "2015-6-3", "2015-6-4")
 
-        binding?.calendar?.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-                val c: Calendar = Calendar.getInstance()
-                val mYear: Int = c.get(Calendar.YEAR)
-                val mMonth: Int = c.get(Calendar.MONTH)
-                val mDay: Int = c.get(Calendar.DAY_OF_MONTH)
-                val datePickerDialog = DatePickerDialog(
-                    requireContext(),
-                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                        binding?.inputSearch?.setText(
-                            "${year}-${monthOfYear + 1}-${dayOfMonth}"
-                        )
-                    }, mYear, mMonth, mDay
-                )
-                datePickerDialog.show()
-            }
+        binding?.calendar?.setOnClickListener(binding?.inputSearch?.let {
+            calendarHelper.getStartDatePicker(
+                it
+            )
         })
-
-        binding?.calendarEnd?.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-                val c: Calendar = Calendar.getInstance()
-                val mYear: Int = c.get(Calendar.YEAR)
-                val mMonth: Int = c.get(Calendar.MONTH)
-                val mDay: Int = c.get(Calendar.DAY_OF_MONTH)
-                val datePickerDialog = DatePickerDialog(
-                    requireContext(),
-                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                        binding?.inputSearchEnd?.setText(
-                            "${year}-${monthOfYear + 1}-${dayOfMonth}"
-                        )
-                    }, mYear, mMonth, mDay
-                )
-                datePickerDialog.show()
-            }
+        binding?.calendarEnd?.setOnClickListener(binding?.inputSearchEnd?.let {
+            calendarHelper.getEndDatePicker(
+                it
+            )
         })
 
         binding?.button?.setOnClickListener {
+            binding?.progressBar?.visibility = View.VISIBLE
+            binding?.check?.visibility = View.GONE
             val inputDate = binding?.inputSearch?.text.toString()
             val inputDateEnd = binding?.inputSearchEnd?.text.toString()
             if (inputDate.isNotEmpty()) {
@@ -118,7 +107,8 @@ class AsteroidsFragment : Fragment() {
             if (adapter == null) {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = AsteroidsAdapter { id ->
-                    val action = AsteroidsFragmentDirections.actionAsteroidsFragmentToAsteroidPageFragment(id)
+                    val action =
+                        AsteroidsFragmentDirections.actionAsteroidsFragmentToAsteroidPageFragment(id)
                     findNavController().navigate(action)
                 }
             }

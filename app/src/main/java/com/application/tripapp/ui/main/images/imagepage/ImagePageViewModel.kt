@@ -29,7 +29,7 @@ class ImagePageViewModel@Inject constructor(
     private fun loadPictures(keyWord: String?) {
         if (keyWord != null) {
             viewModelScope.launch {
-                useCase.getPayloadById(keyWord).collect { image ->
+                useCase.getPictureById(keyWord).collect { image ->
                     _state.value = ImagePageState.PictureLoaded(image)
                 }
         }

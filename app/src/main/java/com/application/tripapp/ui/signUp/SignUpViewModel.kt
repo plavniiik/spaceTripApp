@@ -35,4 +35,6 @@ class SignUpViewModel @Inject constructor(private val repository: FireBaseReposi
             _state.value = SignUpState.Error(it)
         })
     }
+
+
 }

@@ -2,6 +2,8 @@ package com.application.tripapp.ui.signUp
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,20 +56,53 @@ class SignUpFragment : Fragment() {
                 }
             }
         }
-                binding?.run {
-                    button?.setOnClickListener {
-                        viewModel.processAction(
-                            SignUpAction.SignUp(
-                                inputLogin.text.toString(),
-                                inputPass.text.toString()
-                            )
-                        )
-                    }
-
-                    signInTitle.setOnClickListener {
-                        findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+        binding?.run {
+            inputLogin.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable) {
+                    if (s.isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches()) {
+                        inputLogin.setBackgroundResource(R.drawable.input)
                     }
                 }
+
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            })
+
+            inputPass.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable) {
+                    if (s.isNotEmpty() && s.length >= 8) {
+                        inputPass.setBackgroundResource(R.drawable.input)
+                    }
+                }
+
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            })
+
+            button?.setOnClickListener {
+                val username = inputLogin.text.toString()
+                val password = inputPass.text.toString()
+
+                if (username.isEmpty()) {
+                    inputLogin.setBackgroundResource(R.drawable.input_eror)
+                } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches()) {
+                    inputLogin.setBackgroundResource(R.drawable.input_eror)
+                } else if (password.isEmpty()) {
+                    inputPass.setBackgroundResource(R.drawable.input_eror)
+                } else if (password.length < 8) {
+                    inputPass.setBackgroundResource(R.drawable.input_eror)
+                } else {
+                    viewModel.processAction(SignUpAction.SignUp(username, password))
+                }
+            }
+
+            signInTitle.setOnClickListener {
+                findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+            }
         }
+
+    }
 }
 

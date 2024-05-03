@@ -36,82 +36,82 @@ class PictureOfTheDayFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-            lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.state.collect { state ->
-                        when (state) {
-                            is PictureState.PictureLoaded -> {
-                                binding?.run {
-                                    title?.text = state.picture?.title
-                                    image.let {
-                                        if (it != null) {
-                                            binding?.root?.let { it1 ->
-                                                Glide.with(it1.context)
-                                                    .load(state.picture?.url)
-                                                    .error(
-                                                        Glide.with(it1.context)
-                                                            .load("https://hightech.fm/wp-content/uploads/2023/02/8888889.jpg")
-                                                    )
-                                                    .into(it)
-                                            }
-                                        }
-                                    }
-                                    descriptionText.text = state.picture?.explanation
-                                    toHome.setOnClickListener {
-
-                                        findNavController().navigate(R.id.action_pictureOfTheDayFragment_to_mainFragment)
-                                    }
-                                    like?.setOnClickListener {
-                                        if (viewModel.isPictureAdded.value) {
-                                            viewModel.processAction(
-                                                PictureAction.DeletePicture(
-                                                    state.picture
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { state ->
+                    when (state) {
+                        is PictureState.PictureLoaded -> {
+                            binding?.run {
+                                title?.text = state.picture?.title
+                                image.let {
+                                    if (it != null) {
+                                        binding?.root?.let { it1 ->
+                                            Glide.with(it1.context)
+                                                .load(state.picture?.url)
+                                                .error(
+                                                    Glide.with(it1.context)
+                                                        .load("https://hightech.fm/wp-content/uploads/2023/02/8888889.jpg")
                                                 )
-                                            )
-                                            like.setImageResource(R.drawable.heart)
-                                        } else {
-                                            viewModel.processAction(PictureAction.AddPicture(state.picture))
-                                            like.setImageResource(R.drawable.full_heart)
+                                                .into(it)
                                         }
                                     }
                                 }
-                            }
+                                descriptionText.text = state.picture?.explanation
+                                toHome.setOnClickListener {
 
-                            is PictureState.PictureAdded -> {
-                                viewModel.isPictureAdded.value = true
-                            }
-
-                            is PictureState.PictureDeleted -> {
-                                viewModel.isPictureAdded.value = false
-                            }
-
-                            is PictureState.PictureError -> {
-                                Toast.makeText(requireContext(), state.str, Toast.LENGTH_LONG)
-                                    .show()
-                            }
-
-                            else -> {
-
+                                    findNavController().navigate(R.id.action_pictureOfTheDayFragment_to_mainFragment)
+                                }
+                                like?.setOnClickListener {
+                                    if (viewModel.isPictureAdded.value) {
+                                        viewModel.processAction(
+                                            PictureAction.DeletePicture(
+                                                state.picture
+                                            )
+                                        )
+                                        like.setImageResource(R.drawable.heart)
+                                    } else {
+                                        viewModel.processAction(PictureAction.AddPicture(state.picture))
+                                        like.setImageResource(R.drawable.full_heart)
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-            }
 
-            viewModel.processAction(PictureAction.LoadPicture)
+                        is PictureState.PictureAdded -> {
+                            viewModel.isPictureAdded.value = true
+                        }
 
-            lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.isPictureAdded.collect { isAdded ->
-                        if (isAdded) {
-                            binding?.like?.setImageResource(R.drawable.full_heart)
-                        } else {
-                            binding?.like?.setImageResource(R.drawable.heart)
+                        is PictureState.PictureDeleted -> {
+                            viewModel.isPictureAdded.value = false
+                        }
+
+                        is PictureState.PictureError -> {
+                            Toast.makeText(requireContext(), state.str, Toast.LENGTH_LONG)
+                                .show()
+                        }
+
+                        else -> {
+
                         }
                     }
                 }
             }
         }
+
+        viewModel.processAction(PictureAction.LoadPicture)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isPictureAdded.collect { isAdded ->
+                    if (isAdded) {
+                        binding?.like?.setImageResource(R.drawable.full_heart)
+                    } else {
+                        binding?.like?.setImageResource(R.drawable.heart)
+                    }
+                }
+            }
+        }
     }
+}
 
 

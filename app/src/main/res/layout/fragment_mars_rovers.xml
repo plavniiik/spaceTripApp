@@ -14,7 +14,7 @@
         app:layout_constraintTop_toBottomOf="@id/login_title"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/search_input"
-        android:hint="Enter date"
+        android:hint="@string/enter_date"
         android:inputType="text"
         android:textSize="@dimen/text_reg_size"
         style="@style/input_text"
@@ -39,7 +39,30 @@
         app:layout_constraintEnd_toStartOf="@id/button"
         android:layout_marginTop="@dimen/margin_14"
         android:layout_marginEnd="@dimen/margin_14"/>
+    <TextView
+        android:id="@+id/check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/there_is_no_matching_information_for_your_request"
+        android:textAppearance="@style/regular_style_text"
+        android:textSize="@dimen/text_reg_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_search"
+        android:layout_marginTop="@dimen/margin_20"
+        android:visibility="gone"/>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/popupWindowStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_search"
+        android:indeterminate="true"
+        android:indeterminateTint="#FFFFFF"
+        android:layout_marginTop="@dimen/margin_8"
+        android:visibility="visible" />
     <ImageView
         android:id="@+id/stars"
         android:layout_width="wrap_content"
@@ -47,8 +70,11 @@
         android:background="@drawable/stars"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <TextView
         android:id="@+id/login_title"
         android:layout_width="wrap_content"
@@ -63,9 +89,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_marginTop="@dimen/margin_40"
+        android:layout_marginTop="@dimen/_48dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/null_h"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/input_search"
         tools:listitem="@layout/item_rover_picture" />
