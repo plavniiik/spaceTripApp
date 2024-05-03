@@ -1,39 +1,45 @@
 package com.application.tripapp.ui.saved.pictures
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.room.InvalidationTracker
+import androidx.lifecycle.viewModelScope
 import com.application.tripapp.db.PictureEntity
 import com.application.tripapp.repository.FireBaseRepository
+import com.application.tripapp.ui.picture.PictureState
+import com.application.tripapp.ui.saved.asteroids.SavedAsteroidsAction
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
-class SavedPictureViewModel @Inject constructor(private val repository: FireBaseRepository) :
+class SavedPictureViewModel @Inject constructor(
+    private val repository: FireBaseRepository,
+    private val firebaseRepository: FireBaseRepository
+) :
     ViewModel() {
+    private val _state = MutableStateFlow(SavedPicturesState.PicturesLoaded(emptyList()))
+    val state: StateFlow<SavedPicturesState> = _state
 
-    val state = MutableLiveData<SavedPicturesState>()
-
-    private val picturesObserver =
-        androidx.lifecycle.Observer<List<PictureEntity>> { pictures: List<PictureEntity> ->
-        }
-
-    init {
-        repository.picturesResult.observeForever(picturesObserver)
-    }
-
-    fun processAction(action: SavedPicturesAction) {
+    fun processAction(action: SavedPicturesAction, id: String) {
         when (action) {
             is SavedPicturesAction.Load -> {
                 loadPictures()
+            }
+
+            is SavedPicturesAction.DeletePictures -> {
+                deletePictures(id)
             }
         }
     }
 
     private fun loadPictures() {
-        repository.getPicturesOfTheDay(
-            onSuccess = { results ->
-                val resultEntities = results.map {
+        viewModelScope.launch {
+            repository.pictures.collect() { pictures ->
+                Log.d("SavedPictureViewModel", "Received pictures: ${pictures.size}")
+                val pictureEntities = pictures.map {
                     PictureEntity(
                         it.id,
                         it.explanation,
@@ -41,16 +47,24 @@ class SavedPictureViewModel @Inject constructor(private val repository: FireBase
                         it.url
                     )
                 }
-                state.postValue(SavedPicturesState.PicturesLoaded(resultEntities))
-            },
-            onError = { error ->
-                state.postValue(SavedPicturesState.Error(error))
+                _state.value = SavedPicturesState.PicturesLoaded(pictureEntities)
             }
-        )
+        }
+        repository.getPicturesOfTheDay(viewModelScope)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        repository.picturesResult.removeObserver(picturesObserver)
+    private fun deletePictures(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                firebaseRepository.deletePictureOfTheDay(id, {
+
+                }, {
+                    /*_state.value = SavedPicturesState.Error("Error: $it")*/
+                })
+            } catch (e: Exception) {
+                /*_state.value = SavedPicturesState.Error("Error: ${e.message}")*/
+            }
+        }
     }
+
 }

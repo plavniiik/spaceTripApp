@@ -20,8 +20,10 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/im_height_250"
+        android:layout_height="@dimen/_400dp"
+        android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <ImageView
         android:id="@+id/to_home"
@@ -40,7 +42,8 @@
         android:background="@drawable/back_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image" />
 
     <TextView
         android:id="@+id/title"
@@ -51,7 +54,7 @@
         android:textAppearance="@style/bold_style_text"
         android:textSize="@dimen/title_20"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/description"
+        app:layout_constraintTop_toTopOf="@id/like"
         tools:text="@string/app_name" />
 
     <ImageView
@@ -65,27 +68,26 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/null_h"
+        android:fillViewport="true"
         android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        android:fillViewport="true">
+        app:layout_constraintTop_toBottomOf="@id/title">
 
         <TextView
             android:id="@+id/description_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="@dimen/margin_20"
             android:layout_marginTop="@dimen/margin_20"
             android:layout_marginEnd="@dimen/margin_8"
             android:scrollHorizontally="false"
             android:textAppearance="@style/regular_style_text"
             android:textSize="@dimen/text_reg_size"
-            android:maxLines="20"
             tools:text="@string/app_name" />
 
     </ScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.application.tripapp.ui.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,14 +29,16 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.run {
+
             logoutTitle?.setOnClickListener {
                 requireActivity().findNavController(R.id.main_nav).apply {
                     navigate(R.id.action_menuFragment_to_loginFragment)
+
                 }
                 viewModel.logout()
             }
 
-            my.setOnClickListener {
+            myTitle.setOnClickListener {
                 findNavController().navigate(R.id.action_profileFragment_to_savedPicturesFragment)
             }
         }

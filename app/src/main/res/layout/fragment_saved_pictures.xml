@@ -10,7 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black">
-
+        <TextView
+            android:id="@+id/check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nothing_has_been_added_yet"
+            android:textAppearance="@style/regular_style_text"
+            android:textSize="@dimen/text_reg_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/saved_asteroids"
+            android:layout_marginTop="@dimen/margin_20"
+            android:visibility="gone"/>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/saved_pictures"
             android:layout_width="@dimen/small_btn_w"
@@ -37,31 +47,6 @@
             app:layout_constraintStart_toEndOf="@id/saved_pictures"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/saved_repository"
-            android:layout_width="@dimen/small_btn_w"
-            android:layout_height="@dimen/small_btn_h"
-            android:layout_marginStart="@dimen/margin_8"
-            android:layout_marginTop="@dimen/margin_40"
-            android:background="@drawable/saved_gray"
-            android:text="@string/science"
-            android:textAppearance="@style/regular_style_text"
-            android:textSize="@dimen/text_button_size"
-            app:layout_constraintStart_toEndOf="@id/saved_asteroids"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/saved_rover"
-            android:layout_width="@dimen/small_btn_w"
-            android:layout_height="@dimen/small_btn_h"
-            android:layout_marginStart="@dimen/margin_8"
-            android:layout_marginTop="@dimen/margin_40"
-            android:background="@drawable/saved_gray"
-            android:text="@string/mars_rover"
-            android:textAppearance="@style/regular_style_text"
-            android:textSize="@dimen/text_button_size"
-            app:layout_constraintStart_toEndOf="@id/saved_repository"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/stars"
@@ -77,9 +62,10 @@
         android:id="@+id/recyclerView"
         android:layout_marginTop="@dimen/margin_40"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/null_h"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/saved_pictures"
-        tools:listitem="@layout/item_picture" />
+        tools:listitem="@layout/item_my_asteroids" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
