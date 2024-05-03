@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_width">172dp</dimen>
+    <dimen name="button_height">52dp</dimen>
+
+    <dimen name="small_btn_w">92dp</dimen>
+    <dimen name="small_btn_h">32dp</dimen>
+
+    <dimen name="text_button_size">16sp</dimen>
+    <dimen name="text_reg_size">18sp</dimen>
+    <dimen name="text_small_size">12sp</dimen>
+    <dimen name="title_20">20sp</dimen>
+    <dimen name="text_46sp">46sp</dimen>
+
+    <dimen name="margin_100">100dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_40">40dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_14">14dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
+
+    <dimen name="padding_10">10dp</dimen>
+
+    <dimen name="im_height_300">300dp</dimen>
+    <dimen name="im_height_350">350dp</dimen>
+    <dimen name="im_height_250">250dp</dimen>
+
+
+    <dimen name="_20dp">20dp</dimen>
+    <dimen name="_80dp">80dp</dimen>
+    <dimen name="_40dp">40dp</dimen>
+    <dimen name="_100dp">100dp</dimen>
+    <dimen name="_0dp">0dp</dimen>
+    <dimen name="_60dp">60dp</dimen>
+    <dimen name="_82dp">82dp</dimen>
+    <dimen name="_62dp">62dp</dimen>
+    <dimen name="_200dp">200dp</dimen>
+    <dimen name="_30dp">30dp</dimen>
+    <dimen name="_48dp">48dp</dimen>
+    <dimen name="_52dp">52dp</dimen>
+    <dimen name="_160dp">160dp</dimen>
+    <dimen name="_400dp">400dp</dimen>
+    <dimen name="_180dp">180dp</dimen>
+    <dimen name="_550dp">550dp</dimen>
+    <dimen name="_16dp">16dp</dimen>
+
+    <dimen name="null_h">0dp</dimen>
+    <dimen name="im_w_300dp">300dp</dimen>
+    <dimen name="im_h_100dp">100dp</dimen>
+    <dimen name="h_20dp">20dp</dimen>
+
+</resources>
